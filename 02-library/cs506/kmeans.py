@@ -2,7 +2,7 @@ from collections import defaultdict
 from math import inf
 import random
 import csv
-
+import numpy as np
 
 def point_avg(points):
     """
@@ -11,7 +11,7 @@ def point_avg(points):
     
     Returns a new point which is the center of all the points.
     """
-    raise NotImplementedError()
+    return np.mean(points,axis=1)
 
 
 def update_centers(dataset, assignments):
@@ -21,7 +21,21 @@ def update_centers(dataset, assignments):
     Compute the center for each of the assigned groups.
     Return `k` centers in a list
     """
-    raise NotImplementedError()
+    cluster = np.unique(assignments)
+    centroids=[]
+    for i in range(len(assignments)):
+        cluster = cluster[i]
+        data=[]
+        for j in range(len(dataset)):
+            if assignments[i]==cluster:
+                data.append(dataset[j])
+        data=np.array(data)
+        centroid = point_avg(data)
+
+        centroids.append(centroid)
+    return centroids
+
+
 
 def assign_points(data_points, centers):
     """
@@ -43,20 +57,29 @@ def distance(a, b):
     """
     Returns the Euclidean distance between a and b
     """
-    raise NotImplementedError()
+    return np.linalg.norm(a-b)
 
 def distance_squared(a, b):
-    raise NotImplementedError()
+    return distance(a,b)**2
 
 def generate_k(dataset, k):
     """
     Given `data_set`, which is an array of arrays,
     return a random set of k points from the data_set
     """
-    raise NotImplementedError()
+    return np.random.choice(dataset,k, replace=0)
+
 
 def cost_function(clustering):
-    raise NotImplementedError()
+    clusters= list(clustering)
+    cost=0
+    for i in range(len(clusters)):
+        cluster=clusters[i]
+        data=clustering[cluster]
+        for j in range(len(data)):
+            for k in range(len(data)):
+                cost += distance(data[j],data[j])
+    return cost
 
 
 def generate_k_pp(dataset, k):
@@ -66,7 +89,22 @@ def generate_k_pp(dataset, k):
     where points are picked with a probability proportional
     to their distance as per kmeans pp
     """
-    raise NotImplementedError()
+    initial_centroids=generate_k(dataset,k)
+
+    probs=[]
+    for j in range(len(dataset)):
+        for i in range(len(initial_centroids)):
+            centroid= initial_centroids[i]
+            cost +=distance_squared(dataset[j],centroid)
+
+        probs.append(cost)
+    k_clusters=[]
+    for i in range(len(probs)):
+        index = np.argmax(probs)
+        k_clusters.append(dataset[index])
+        probs[index]=np.min(probs)
+
+    return np.array(k_clusters)
 
 
 def _do_lloyds_algo(dataset, k_points):

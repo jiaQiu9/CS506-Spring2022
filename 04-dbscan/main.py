@@ -2,8 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.datasets as datasets
 from sklearn.preprocessing import StandardScaler
-
-from cs506 import dbscan
+import sys, os
+# sys.path.appe
+from dbscan import DBC
 
 centers = [[1, 1], [-1, -1], [1, -1]]
 X, _ = datasets.make_blobs(n_samples=750, centers=centers, cluster_std=0.4,

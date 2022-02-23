@@ -2,9 +2,6 @@ from sklearn.cluster import cluster_optics_dbscan
 from sklearn.metrics import euclidean_distances
 from .sim import euclidean_distances
 
-import numpy as np
-import matplotlib.pyplot as plt
-
 class DBC():
 
     def __init__(self, dataset, min_pts, epsilon):
@@ -13,12 +10,11 @@ class DBC():
         self.epsilon = epsilon
 
 
-    def snapshot(self, P,assignment):
-        fig, ax= plt.subplots()
+    def snapshot(self, assignment):
         colors = np.array([x for x in 'bgrcmykbgrcmykbgrcmykbgrcmyk'])
         colors = np.hstack([colors] * 20)
         ax.scatter(self.dataset[:, 0], self.dataset[:, 1], color=colors[assignment].tolist(), s=10, alpha=0.8)
-        cir=plt.Circle((self.dataset[P][0],self.dataset[P][1]), )
+        cir=plt.Circle((self.dataset[P_index][0],self.dataset[P_index][1]), )
         fig.savefig("temp.png")
         plt.close()
 
