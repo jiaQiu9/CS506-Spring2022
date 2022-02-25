@@ -12,6 +12,15 @@ class DBC():
         self.min_pts = min_pts
         self.epsilon = epsilon
 
+    def epsilon_neighborhood(self, P):
+        # TODO: implement next time
+        return []
+
+
+    def explore_and_assign_eps_neighborhood(self, P, cluster, assignments):
+        # TODO: implement next time
+        return assignments
+
 
     def snapshot(self, P,assignment):
         fig, ax= plt.subplots()
@@ -65,16 +74,21 @@ class DBC():
             assignment should match the index of the data point
             in the dataset.
         """
-        assignments= [0 for _ in range(len(self.dataset))]
-        cluster =1
-        for P_index in range(len(self.dataset)):
-            if assignments[P_index] != 0:
+
+        assignments = [0 for _ in range(len(self.dataset))]
+        cluster = 1
+
+        for P in range(len(self.dataset)):
+            
+            if assignments[P] != 0:
+                # already part of a cluster
                 continue
 
-            if len(self.epsilon_neighbourhood(P_index)) >= self.min_pts:
-                #core point
-                assignments =self.explore_and_assign_eps_neighbourhood(P_index,cluster, assignments)
-        
-            cluster +=1
+            if len(self.epsilon_neighborhood(P)) >= self.min_pts:
+                # core point
+                assignments = self.explore_and_assign_eps_neighborhood(
+                    P, cluster, assignments)
+
+            cluster += 1
 
         return assignments
