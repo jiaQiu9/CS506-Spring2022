@@ -2,12 +2,9 @@ from sklearn.cluster import cluster_optics_dbscan
 from sklearn.metrics import euclidean_distances
 from .sim import euclidean_distances
 
-<<<<<<< HEAD
 import numpy as np
 import matplotlib.pyplot as plt
 
-=======
->>>>>>> 3a243391ec466b62e6aa8e28e8f85fbf3691e654
 class DBC():
 
     def __init__(self, dataset, min_pts, epsilon):
@@ -122,7 +119,6 @@ class DBC():
             assignment should match the index of the data point
             in the dataset.
         """
-<<<<<<< HEAD
 
         assignments = [0 for _ in range(len(self.dataset))]
         cluster = 1
@@ -139,18 +135,5 @@ class DBC():
                     P, cluster, assignments)
 
             cluster += 1
-=======
-        assignments= [0 for _ in range(len(self.dataset))]
-        cluster =1
-        for P_index in range(len(self.dataset)):
-            if assignments[P_index] != 0:
-                continue
-
-            if len(self.epsilon_neighbourhood(P_index)) >= self.min_pts:
-                #core point
-                assignments =self.explore_and_assign_eps_neighbourhood(P_index,cluster, assignments)
-        
-            cluster +=1
->>>>>>> 3a243391ec466b62e6aa8e28e8f85fbf3691e654
 
         return assignments
